@@ -6,9 +6,9 @@ To start, this works the exact same as the original script.  Get the Amazon Publ
 #
 Arguments:
 
-\<NUMBER\></t>- Default: 2;</t>This should be the number of public agents that you want to check for
+\<NUMBER\><\t>- Default: 2;<\t>This should be the number of public agents that you want to check for
 
-\<--mlb\></t>- Default: Null; </t>This will check for MLB and deploy if necessary
+\<--mlb\><\t>- Default: Null; <\t>This will check for MLB and deploy if necessary
 #
 ## USAGE:    get-dcos-public-agent-ip.sh \<num-pub-agents\> \<--mlb: Marathon-LB check or add\>
 
