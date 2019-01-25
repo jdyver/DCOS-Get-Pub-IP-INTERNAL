@@ -6,12 +6,72 @@ To start, this works the exact same as the original script.  Get the Amazon Publ
 #
 Arguments:
 
-\<NUMBER\><\t>- Default: 2;<\t>This should be the number of public agents that you want to check for
+\<NUMBER\> - Default: 2;    This should be the number of public agents that you want to check for
 
-\<--mlb\><\t>- Default: Null; <\t>This will check for MLB and deploy if necessary
+\<--mlb\>  - Default: Null; This will check for MLB and deploy if necessary
 #
 ## USAGE:    get-dcos-public-agent-ip.sh \<num-pub-agents\> \<--mlb: Marathon-LB check or add\>
 
-![Executed Command and Out default (No LB)](https://github.com/jdyver/DCOS-Get-Pub-IP/blob/master/img/CMD1.png)
-![Executed Command and Out default (LB)](https://github.com/jdyver/DCOS-Get-Pub-IP/blob/master/img/CMD2.png)
-![Executed Command and Out w/MLB](https://github.com/jdyver/DCOS-Get-Pub-IP/blob/master/img/CMD3.png)
+Executed Command and Out default (No LB available)
+
+`
+JD # bash get-dcos-public-agent-ip_v1.sh
+
+ Using the default number of public agent nodes (2)
+
+ Starting public-ip.json marathon app
+
+Extracting "dcos-core-cli"...
+Created deployment de66422d-bb5c-486e-bc6d-bcfb06791f31
+
+
+ Public agent node found:  public IP is: 54.190.20.151 | http://54.190.20.151:9090/haproxy?stats
+
+
+ Public agent node found:  public IP is: 35.160.110.93 | http://35.160.110.93:9090/haproxy?stats
+
+`
+
+Executed Command and Out default (LB available)
+`
+
+`
+Executed Command and Out w/MLB (no LB installed)
+`
+JD # bash get-dcos-public-agent-ip_v1.sh --mlb
+
+ Using the default number of public agent nodes (2) with Marathon-LB
+
+ Starting public-ip.json marathon app
+
+Created deployment 469022bd-fefd-423a-8899-75e2328200b1
+
+ Marathon-LB Not Found: Deploying
+
+
+ Public agent node found:  public IP is: 54.190.20.151 | http://54.190.20.151:9090/haproxy?stats
+ Marathon-LB Location: http://54.190.20.151:9090/haproxy?stats
+
+ Public agent node found:  public IP is: 35.160.110.93 | http://35.160.110.93:9090/haproxy?stats
+
+`
+## Steps
+
+`
+JD # dcos cluster setup https://jdyckowsk-elasticl-1mdecebj9wsc5-1708719683.us-west-2.elb.amazonaws.com
+Cluster Certificate Authority:
+
+  Issuer: CN=DC/OS Root CA 6ee7b6ce-3f97-4614-911a-e6244669de9f,O=Mesosphere\, Inc.,L=San Francisco,ST=CA,C=US
+
+  Validity:
+    From:  2019-01-25 15:13:52 +0000 UTC
+    Until: 2029-01-22 15:13:52 +0000 UTC
+
+  SHA256 fingerprint: A8:E8:20:55:55:F0:56:60:A5:7D:0B:70:DD:20:1F:11:98:16:2B:9D:DB:49:44:02:F3:32:1E:40:42:36:79:59
+
+Do you trust it? [y/n] y
+Username: bootstrapuser
+Password:
+`
+
+## EOF
