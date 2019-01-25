@@ -1,13 +1,14 @@
 #
 # SCRIPT:   get-dcos-public-agent-ip.sh
 #
-DESCRIPTION: To start, this works the exact same as the original script.  
-Get the Amazon Public IP Address for the public DCOS agent nodes. 
-If no arguments are supplied it will attempt to start on 2 pubic agent nodes.
+DESCRIPTION: 
+To start, this works the exact same as the original script.  Get the Amazon Public IP Address for the public DCOS agent nodes.  If no arguments are supplied it will attempt to start on 2 pubic agent nodes.
 #
 Arguments:
-<NUMBER> - Default: 2;    This should be the number of public agents that you want to check for
-<--mlb>  - Default: Null; This will check for MLB and deploy if necessary
+
+\<NUMBER\> - Default: 2;    This should be the number of public agents that you want to check for
+
+\<--mlb\>  - Default: Null; This will check for MLB and deploy if necessary
 #
 ## USAGE:    get-dcos-public-agent-ip.sh <num-pub-agents> <--mlb: Marathon-LB check or add>
 
