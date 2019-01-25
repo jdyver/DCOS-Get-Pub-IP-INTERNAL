@@ -28,7 +28,8 @@ Created deployment de66422d-bb5c-486e-bc6d-bcfb06791f31
 Public agent node found:  public IP is: 54.190.20.151 | http://54.190.20.151:9090/haproxy?stats
 
 
-Public agent node found:  public IP is: 35.160.110.93 | http://35.160.110.93:9090/haproxy?stats`
+Public agent node found:  public IP is: 35.160.110.93 | http://35.160.110.93:9090/haproxy?stats
+```
 
 ### Executed Command and Out default (LB available)
 
