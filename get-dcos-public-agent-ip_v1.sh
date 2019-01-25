@@ -100,7 +100,7 @@ do
 
     if [[ $haproxy == *OK* ]]
     then
-        echo " Marathon-LB Location: http://$public_ip:9090/haproxy?stats"
+        echo " LB Location: http://$public_ip:9090/haproxy?stats"
     else
         echo
     fi
