@@ -14,26 +14,27 @@ Arguments:
 
 Executed Command and Out default (No LB available)
 
-    `
-JD # bash get-dcos-public-agent-ip_v1.sh
+     `
+     JD # bash get-dcos-public-agent-ip_v1.sh
 
- Using the default number of public agent nodes (2)
+     Using the default number of public agent nodes (2)
 
- Starting public-ip.json marathon app
+     Starting public-ip.json marathon app
 
-Extracting "dcos-core-cli"...
-Created deployment de66422d-bb5c-486e-bc6d-bcfb06791f31
-
-
- Public agent node found:  public IP is: 54.190.20.151 | http://54.190.20.151:9090/haproxy?stats
+     Extracting "dcos-core-cli"...
+     Created deployment de66422d-bb5c-486e-bc6d-bcfb06791f31
 
 
- Public agent node found:  public IP is: 35.160.110.93 | http://35.160.110.93:9090/haproxy?stats
+     Public agent node found:  public IP is: 54.190.20.151 | http://54.190.20.151:9090/haproxy?stats
 
-    `
+
+     Public agent node found:  public IP is: 35.160.110.93 | http://35.160.110.93:9090/haproxy?stats
+
+     `
 
 Executed Command and Out default (LB available)
-`
+
+    ```
 JD # bash get-dcos-public-agent-ip_v1.sh
 
  Using the default number of public agent nodes (2)
@@ -48,7 +49,7 @@ Created deployment 075c6e86-ffb6-4f7d-9b95-465efd9e2fc2
 
  Public agent node found:  public IP is: 35.160.110.93 | http://35.160.110.93:9090/haproxy?stats
 
-`
+    ```
 Executed Command and Out w/MLB (no LB installed)
 `
 JD # bash get-dcos-public-agent-ip_v1.sh --mlb
