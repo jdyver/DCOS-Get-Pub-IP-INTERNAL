@@ -158,8 +158,22 @@ do
     if [[ $haproxy == *OK* ]]
     then
         echo " LB Location: http://$public_ip:9090/haproxy?stats"
-    else
-        echo
+    elif [ "$elb_enabled" == "1" ]
+    then
+	elb_port_num=$(echo `dcos edgelb show edgelb-proxy | grep STATSPORT` | tr -dc '0-9')
+               
+	       # Expected Output ########################################
+               # JD # dcos edgelb show edgelb-proxy | grep STATSPORT
+               #  STATSPORT    6090
+
+        haproxy=`curl -Is http://$public_ip:$elb_port_num/haproxy?stats | head -1`
+
+	if [[ $haproxy == *OK* ]]
+    	then
+        	echo " LB Location: http://$public_ip:$elb_port_num/haproxy?stats"
+    	else
+        	echo
+	fi
     fi
 
 done
