@@ -80,7 +80,7 @@ Setup dcos command line
 JD # dcos cluster setup https://jdyckowsk-elasticl-1mdecebj9wsc5-1708719683.us-west-2.elb.amazonaws.com
 Cluster Certificate Authority:
 
-Issuer: CN=DC/OS Root CA 6ee7b6ce-3f97-4614-911a-e6244669de9f,O=Mesosphere\, Inc.,L=San Francisco,ST=CA,C=US
+Issuer: CN=DC/OS Root CA 6ZZ9ERZZ-3Z9Z-4Z1Z-Z1ZZ-Z6244669ZZ9Z,O=Mesosphere\, Inc.,L=San Francisco,ST=CA,C=US
 
 Validity:
 From:  2019-01-25 15:13:52 +0000 UTC
