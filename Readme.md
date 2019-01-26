@@ -97,7 +97,7 @@ JD # bash get-dcos-public-agent-ip_v2.sh 5 --elb /Users/jamesdyckowski/Documents
  Public agent node found:  public IP is: 34.219.67.216
 
  Public agent node found:  public IP is: 52.42.92.86
- <b>LB Location: http://52.42.92.86:6090/haproxy?stats</b>
+ LB Location: http://52.42.92.86:6090/haproxy?stats
 
  Public agent node found:  public IP is: 54.218.238.92
 
@@ -126,19 +126,22 @@ Password: *****
 
 Run Command
 ```
-JD # bash get-dcos-public-agent-ip_v1.sh
+JD # bash get-dcos-public-agent-ip_v2.sh 5
 
-Using the default number of public agent nodes (2)
+ Using 5 public agent node(s)
 
-Starting public-ip.json marathon app
+ Starting public-ip.json marathon app
 
-Created deployment 075c6e86-ffb6-4f7d-9b95-465efd9e2fc2
+ Public agent node found:  public IP is: 34.217.72.215
 
+ Public agent node found:  public IP is: 34.219.67.216
 
-Public agent node found:  public IP is: 54.190.20.151 | http://54.190.20.151:9090/haproxy?stats
-LB Location: http://54.190.20.151:9090/haproxy?stats
+ Public agent node found:  public IP is: 52.42.92.86
+ LB Location: http://52.42.92.86:6090/haproxy?stats
 
-Public agent node found:  public IP is: 35.160.110.93 | http://35.160.110.93:9090/haproxy?stats
+ Public agent node found:  public IP is: 54.218.238.92
+
+ Public agent node found:  public IP is: 34.218.241.180
 ```
 
 ## EOF
