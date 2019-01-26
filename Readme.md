@@ -4,7 +4,7 @@
 DESCRIPTION: 
 To start, this works the exact same as the original script.  Get the Amazon Public IP Address for the public DCOS agent nodes.  If no arguments are supplied then it will attempt to start on 2 pubic agent nodes.  With the MLB flag it will ensure that you have MLB and let you know which agent has it deployed
 
-Edge-LB will be added shortly
+## ADDING Edge-LB
 #
 Arguments:
 
