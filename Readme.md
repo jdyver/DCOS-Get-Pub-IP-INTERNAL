@@ -1,18 +1,25 @@
 #
-# SCRIPT:   get-dcos-public-agent-ip.sh
+# SCRIPT:   get-dcos-public-agent-ip_v2.sh
 #
 DESCRIPTION: 
-To start, this works the exact same as the original script.  Get the Amazon Public IP Address for the public DCOS agent nodes.  If no arguments are supplied then it will attempt to start on 2 pubic agent nodes.  With the MLB flag it will ensure that you have MLB and let you know which agent has it deployed
+To start, this works the exact same as the original script.  Get the Amazon Public IP Address for the public DCOS agent nodes.  If no arguments are supplied then it will attempt to start on 2 pubic agent nodes.  With the MLB/ELB flag it will ensure that you have the selected LB and let you know which agent has it deployed
 
-## ADDING Edge-LB
 #
 Arguments:
 
 \<NUMBER\> - Default: 2;    This should be the number of public agents that you want to check for
 
 \<--mlb\>  - Default: Null; This will check for MLB and deploy if necessary
+
+\<--elb\> \<elb-local.cfg.json location\> - Default: Null; This will check for ELB and deploy with your json if necessary
+
 #
-## USAGE:    get-dcos-public-agent-ip.sh \<num-pub-agents\> \<--mlb: Marathon-LB check or add\>
+## USAGE:    get-dcos-public-agent-ip.sh \<num-pub-agents\> \<--mlb: Marathon-LB check or add\> \<--elb: Edge-LB check or add\> \<elb-local.cfg.json location\>
+- get-dcos-public-agent-ip.sh
+- get-dcos-public-agent-ip.sh 3
+- get-dcos-public-agent-ip.sh --mlb
+- get-dcos-public-agent-ip.sh --elb /Users/username/Documents/Scripts/edgelb.cfg.json
+- get-dcos-public-agent-ip.sh 3 --mlb/elb /Users/username/Documents/Scripts/edgelb.cfg.json
 
 ### Expected Output
 
