@@ -1,25 +1,21 @@
 #!/bin/bash
 #
-# SCRIPT:   get-dcos-public-agent-ip_v2.sh
+# SCRIPT:   get-dcos-public-agent-ip_v3.sh
 #
-# DESCR:    Get the Amazon Public IP Address for the public DCOS agent nodes. If
-#           no arguments are supplied it will attempt to start on 2 pubic agent nodes.
+# DESCR:    Get the Public IP Address for all of the public DCOS agent nodes.
 #
-# USAGE:    get-dcos-public-agent-ip.sh <num-pub-agents> <--mlb: Marathon-LB check or add> <--elb: Edge-LB check or add> <elb-local.cfg.json location>
+# USAGE:    get-dcos-public-agent-ip.sh <--mlb: Marathon-LB check or add> <--elb: Edge-LB check or add> <elb-local.cfg.json location>
 #
 # - get-dcos-public-agent-ip.sh
-# - get-dcos-public-agent-ip.sh 3
 # - get-dcos-public-agent-ip.sh --mlb
 # - get-dcos-public-agent-ip.sh --elb /Users/username/Documents/Scripts/edgelb.cfg.json
-# - get-dcos-public-agent-ip.sh 3 --mlb/elb /Users/username/Documents/Scripts/edgelb.cfg.json
 #
 
 ###### Usage Check #############################################################
 echo
 if [ "$1" == "" ]
 then
-    num_pub_agents=2
-    echo " Using the default number of public agent nodes (2)"
+    echo "  Public-IP: Pulling IPs without adding LBs"
     mlb_enabled=0
     elb_enabled=0
     elb_cfg_file=0
@@ -28,8 +24,7 @@ then
     mlb_enabled=1
     elb_enabled=0
     elb_cfg_file=0
-    num_pub_agents=2
-    echo " Using the default number of public agent nodes (2) with Marathon-LB"
+    echo " Public-IP: Checking for Marathon-LB"
 elif [ $1 == "--elb" ]
 then
     elb_enabled=1
@@ -41,33 +36,12 @@ then
         elb_cfg_file=$2
     fi
     mlb_enabled=0
-    num_pub_agents=2
-    echo " Using the default number of public agent nodes (2) with Edge-LB:$2"
-elif [ "$2" == "--mlb" ]
-then
-    mlb_enabled=1
-    elb_enabled=0
-    elb_cfg_file=0
-    num_pub_agents=$1
-    echo " Using $num_pub_agents public agent node(s) with Marathon-LB"
-elif [ "$2" == "--elb" ]
-then
-    mlb_enabled=0
-    elb_enabled=1
-    if [ "$3" == "" ]
-    then
-        echo " get-dcos-public-agent-ip.sh fail: --elb requires a json "
-	exit 1;
-    else
-        elb_cfg_file=$3
-    fi
-    num_pub_agents=$1
-    echo " Using $num_pub_agents public agent node(s) with Edge-LB:$3"
+    echo " Public-IP: Checking for Edge-LB:$2"
 else
-    num_pub_agents=$1
-    echo " Using $num_pub_agents public agent node(s)"
+    echo " Public-IP: Pulling IPs without adding LBs"
+    echo " - Argument warning: Public count is no longer a valid input"
     mlb_enabled=0
-    elb_enable=0
+    elb_enabled=0
     elb_cfg_file=0
 fi
 
@@ -75,15 +49,14 @@ fi
 
 ###### Add Public node count ####################################################
 
-# dcos_pub_out=`dcos node --json | grep public_ip`
+dcos_pub_out=`dcos node --json | grep public_ip`
 # echo $dcos_pub_out
 
-# num_pub_agents=`echo $dcos_pub_out | wc -w`
+num_pub_agents=`echo $dcos_pub_out | wc -w`
 # echo $num_pub_agents
 
-# num_pub_agents=`echo $((num_pub_agents / 2))`
+num_pub_agents=`echo $((num_pub_agents / 2))`
 # echo "Public Agent Count: $num_pub_agents"
-# echo
 
 # End of Adding Public Node Count ###############################################
  
@@ -128,7 +101,7 @@ then
 
     if [[ $marathon == *marathon-lb* ]]
     then
-        echo #" DELETEME: MARATHON-LB !!! "
+        echo
     elif [[ $marathon == *edgelb-proxy* ]]
     then
 	echo " EDGE-LB is already deployed so not deploying Marathon"
@@ -139,8 +112,8 @@ then
         dcos package install --yes marathon-lb &> /dev/null
         sleep 15
     fi
-else
-    echo
+#else
+#    echo
 fi
 
 # End of M-LB Check ##############################################
@@ -159,7 +132,7 @@ then
 
     if [[ $marathon == *edgelb-proxy* ]]
     then
-        echo #" DELETEME: EDGE-LB !!! "
+        echo
     elif [[ $marathon == *marathon-lb* ]]
     then
         echo " Marathon-LB is already deployed so not deploying EdgeLB"
@@ -178,7 +151,7 @@ then
 
 	if [[ $repo_list != *edgelb* ]]
 	then
-        	echo #" DELETEME: Adding EdgeLB Repos"
+        	echo
 		dcos package repo add --index=0 edgelb https://downloads.mesosphere.com/edgelb/v1.2.3/assets/stub-universe-edgelb.json
 		dcos package repo add --index=0 edgelb-pool https://downloads.mesosphere.com/edgelb-pool/v1.2.3/assets/stub-universe-edgelb-pool.json
 		sleep 5
@@ -188,8 +161,8 @@ then
 	dcos edgelb create $elb_cfg_file &> /dev/null
 	sleep 20
     fi
-else
-    echo
+#else
+#    echo
 fi
 
 # End of EDGE-LB Check ################################################
@@ -202,7 +175,7 @@ do
     public_ip=`dcos task log $task_id stdout | tail -1`
 
     echo
-    echo " Public agent node found:  public IP is: $public_ip"
+    echo "    Public agent node found:  public IP is: $public_ip"
     haproxy=`curl -Is http://$public_ip:9090/haproxy?stats | head -1`
 
             # Expected - Positive Output #####################
@@ -210,7 +183,7 @@ do
 
     if [[ $haproxy == *OK* ]]
     then
-        echo " LB Location: http://$public_ip:9090/haproxy?stats"
+        echo "        LB Node: http://$public_ip:9090/haproxy?stats"
     elif [[ $haproxy == *Service*Unavailable* ]]
     then
 	elb_port_num=$(echo `dcos edgelb show edgelb-proxy | grep STATSPORT` | tr -dc '0-9')
@@ -223,7 +196,7 @@ do
 
 	if [[ $haproxy == *OK* ]]
     	then
-        	echo " LB Location: http://$public_ip:$elb_port_num/haproxy?stats"
+        	echo "        LB Node: http://$public_ip:$elb_port_num/haproxy?stats"
     	else
         	echo
 	fi
