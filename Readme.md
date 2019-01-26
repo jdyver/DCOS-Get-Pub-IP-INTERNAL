@@ -3,6 +3,8 @@
 #
 DESCRIPTION: 
 To start, this works the exact same as the original script.  Get the Amazon Public IP Address for the public DCOS agent nodes.  If no arguments are supplied then it will attempt to start on 2 pubic agent nodes.  With the MLB flag it will ensure that you have MLB and let you know which agent has it deployed
+
+Edge-LB will be added shortly
 #
 Arguments:
 
@@ -12,7 +14,9 @@ Arguments:
 #
 ## USAGE:    get-dcos-public-agent-ip.sh \<num-pub-agents\> \<--mlb: Marathon-LB check or add\>
 
-### Executed Command and Out default (No LB available)
+### Expected Output
+
+Executed Command and Out default (No LB available)
 
 ```
 JD # bash get-dcos-public-agent-ip_v1.sh
@@ -31,7 +35,7 @@ Public agent node found:  public IP is: 54.190.20.151 | http://54.190.20.151:909
 Public agent node found:  public IP is: 35.160.110.93 | http://35.160.110.93:9090/haproxy?stats
 ```
 
-### Executed Command and Out default (LB available)
+Executed Command and Out default (LB available)
 
 ```
 JD # bash get-dcos-public-agent-ip_v1.sh
@@ -49,7 +53,7 @@ LB Location: http://54.190.20.151:9090/haproxy?stats
 Public agent node found:  public IP is: 35.160.110.93 | http://35.160.110.93:9090/haproxy?stats
 ```
 
-### Executed Command and Out w/MLB (no LB installed)
+Executed Command and Out w/MLB (no LB installed)
 
 ```
 JD # bash get-dcos-public-agent-ip_v1.sh --mlb
