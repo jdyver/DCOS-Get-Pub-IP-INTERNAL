@@ -131,7 +131,7 @@ then
         echo #" DELETEME: MARATHON-LB !!! "
     elif [[ $marathon == *edgelb-proxy* ]]
     then
-	echo #" DELETEME: EDGE-LB not MLB !!! "
+	echo " EDGE-LB is already deployed so not deploying Marathon"
     else
         echo 
         echo " Marathon-LB Not Found: Deploying"
@@ -162,7 +162,7 @@ then
         echo #" DELETEME: EDGE-LB !!! "
     elif [[ $marathon == *marathon-lb* ]]
     then
-        echo #" DELETEME: MARATHON-LB not EDGE-LB !!! "
+        echo " Marathon-LB is already deployed so not deploying EdgeLB"
     else
         echo
         echo " Edge-LB Not Found: Deploying"
