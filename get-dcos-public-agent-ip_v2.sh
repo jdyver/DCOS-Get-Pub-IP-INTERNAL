@@ -8,11 +8,13 @@
 # USAGE:    get-dcos-public-agent-ip.sh <num-pub-agents> <--mlb: Marathon-LB check or add> <--elb: Edge-LB check or add> <elb-local.cfg.json location>
 #
 # - get-dcos-public-agent-ip.sh
-# - get-dcos-public-agent-ip.sh 5
+# - get-dcos-public-agent-ip.sh 3
 # - get-dcos-public-agent-ip.sh --mlb
 # - get-dcos-public-agent-ip.sh --elb /Users/username/Documents/Scripts/edgelb.cfg.json
+# - get-dcos-public-agent-ip.sh 3 --mlb/elb /Users/username/Documents/Scripts/edgelb.cfg.json
 #
 
+###### Usage Check #############################################################
 echo
 if [ "$1" == "" ]
 then
@@ -69,7 +71,23 @@ else
     elb_cfg_file=0
 fi
 
-# get the public IP of the public node if unset
+# End of Usage Check ##############################################################
+
+###### Add Public node count ####################################################
+
+# dcos_pub_out=`dcos node --json | grep public_ip`
+# echo $dcos_pub_out
+
+# num_pub_agents=`echo $dcos_pub_out | wc -w`
+# echo $num_pub_agents
+
+# num_pub_agents=`echo $((num_pub_agents / 2))`
+# echo "Public Agent Count: $num_pub_agents"
+# echo
+
+# End of Adding Public Node Count ###############################################
+ 
+###### Get the public IP of the public node if unset #############################
 cat <<EOF > /tmp/get-public-agent-ip.json
 {
   "id": "/get-public-agent-ip",
@@ -92,7 +110,7 @@ EOF
 echo
 echo ' Starting public-ip.json marathon app'
 echo
-dcos marathon app add /tmp/get-public-agent-ip.json
+dcos marathon app add /tmp/get-public-agent-ip.json &> /dev/null
 
 sleep 10
 
@@ -110,10 +128,10 @@ then
 
     if [[ $marathon == *marathon-lb* ]]
     then
-        echo " DELETEME: MARATHON-LB !!! "
+        echo #" DELETEME: MARATHON-LB !!! "
     elif [[ $marathon == *edgelb-proxy* ]]
     then
-	echo " DELETEME: EDGE-LB not MLB !!! "
+	echo #" DELETEME: EDGE-LB not MLB !!! "
     else
         echo 
         echo " Marathon-LB Not Found: Deploying"
@@ -141,18 +159,34 @@ then
 
     if [[ $marathon == *edgelb-proxy* ]]
     then
-        echo " DELETEME: EDGE-LB !!! "
+        echo #" DELETEME: EDGE-LB !!! "
     elif [[ $marathon == *marathon-lb* ]]
     then
-        echo " DELETEME: MARATHON-LB not EDGE-LB !!! "
+        echo #" DELETEME: MARATHON-LB not EDGE-LB !!! "
     else
         echo
         echo " Edge-LB Not Found: Deploying"
         echo
-        dcos package install --yes edgelb &> /dev/null
-        sleep 15							#!!!! CHECK THIS TIMING
+ 	
+	# Check if EdgeLB is added to the DCOS repo
+	repo_list=`dcos package repo list`
+
+               ### Expected Output - NOT having EdgeLB ######################################
+               # JD # dcos package repo list
+               # Universe: https://universe.mesosphere.com/repo
+               # Bootstrap Registry: https://registry.component.thisdcos.directory/repo
+
+	if [[ $repo_list != *edgelb* ]]
+	then
+        	echo #" DELETEME: Adding EdgeLB Repos"
+		dcos package repo add --index=0 edgelb https://downloads.mesosphere.com/edgelb/v1.2.3/assets/stub-universe-edgelb.json
+		dcos package repo add --index=0 edgelb-pool https://downloads.mesosphere.com/edgelb-pool/v1.2.3/assets/stub-universe-edgelb-pool.json
+		sleep 5
+	fi
+	dcos package install --yes edgelb &> /dev/null
+        sleep 15
 	dcos edgelb create $elb_cfg_file &> /dev/null
-	sleep 20 							#!!!! CHECK THIS TIMING
+	sleep 20
     fi
 else
     echo
@@ -160,6 +194,7 @@ fi
 
 # End of EDGE-LB Check ################################################
 
+###### Pull public IPs and check for LB ###############################################
 task_list=`dcos task get-public-agent-ip | grep get-public-agent-ip | awk '{print $5}'`
 
 for task_id in $task_list;
@@ -197,9 +232,10 @@ do
 done
 sleep 2
 
-dcos marathon app remove get-public-agent-ip
+dcos marathon app remove get-public-agent-ip &> /dev/null
 
 rm /tmp/get-public-agent-ip.json
+
 echo
 
 # end of script
