@@ -31,7 +31,13 @@ then
 elif [ $1 == "--elb" ]
 then
     elb_enabled=1
-    elb_cfg_file=$2
+    if [ "$2" == "" ]
+    then
+	echo " get-dcos-public-agent-ip.sh fail: --elb requires a json "
+	exit 1;
+    else
+        elb_cfg_file=$2
+    fi
     mlb_enabled=0
     num_pub_agents=2
     echo " Using the default number of public agent nodes (2) with Edge-LB:$2"
@@ -46,7 +52,13 @@ elif [ "$2" == "--elb" ]
 then
     mlb_enabled=0
     elb_enabled=1
-    elb_cfg_file=$3
+    if [ "$3" == "" ]
+    then
+        echo " get-dcos-public-agent-ip.sh fail: --elb requires a json "
+	exit 1;
+    else
+        elb_cfg_file=$3
+    fi
     num_pub_agents=$1
     echo " Using $num_pub_agents public agent node(s) with Edge-LB:$3"
 else
@@ -98,7 +110,10 @@ then
 
     if [[ $marathon == *marathon-lb* ]]
     then
-        echo
+        echo " DELETEME: MARATHON-LB !!! "
+    elif [[ $marathon == *edgelb-proxy* ]]
+    then
+	echo " DELETEME: EDGE-LB not MLB !!! "
     else
         echo 
         echo " Marathon-LB Not Found: Deploying"
@@ -126,15 +141,18 @@ then
 
     if [[ $marathon == *edgelb-proxy* ]]
     then
-        echo
+        echo " DELETEME: EDGE-LB !!! "
+    elif [[ $marathon == *marathon-lb* ]]
+    then
+        echo " DELETEME: MARATHON-LB not EDGE-LB !!! "
     else
         echo
         echo " Edge-LB Not Found: Deploying"
         echo
         dcos package install --yes edgelb &> /dev/null
-        sleep 15 							#!!!! CHECK THIS TIMING
-	dcos edgelb create $elb_cfg_file
-	sleep 15 							#!!!! CHECK THIS TIMING
+        sleep 15							#!!!! CHECK THIS TIMING
+	dcos edgelb create $elb_cfg_file &> /dev/null
+	sleep 20 							#!!!! CHECK THIS TIMING
     fi
 else
     echo
@@ -149,7 +167,7 @@ do
     public_ip=`dcos task log $task_id stdout | tail -1`
 
     echo
-    echo " Public agent node found:  public IP is: $public_ip | http://$public_ip:9090/haproxy?stats"
+    echo " Public agent node found:  public IP is: $public_ip"
     haproxy=`curl -Is http://$public_ip:9090/haproxy?stats | head -1`
 
             # Expected - Positive Output #####################
@@ -158,7 +176,7 @@ do
     if [[ $haproxy == *OK* ]]
     then
         echo " LB Location: http://$public_ip:9090/haproxy?stats"
-    elif [ "$elb_enabled" == "1" ]
+    elif [[ $haproxy == *Service*Unavailable* ]]
     then
 	elb_port_num=$(echo `dcos edgelb show edgelb-proxy | grep STATSPORT` | tr -dc '0-9')
                
