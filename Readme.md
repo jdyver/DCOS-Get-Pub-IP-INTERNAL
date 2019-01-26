@@ -9,12 +9,12 @@ Arguments:
 
 \<NUMBER\> - Default: 2;    This should be the number of public agents that you want to check for
 
-\<--mlb\>  - Default: Null; This will check for MLB and deploy if necessary
+\<--mlb\>  - Default: Null; This will check for Marathon-LB and deploy if necessary
 
-\<--elb\> \<elb-local.cfg.json location\> - Default: Null; This will check for ELB and deploy with your json if necessary
+\<--elb\> \<elb-local.cfg.json location\> - Default: Null; This will check for EdgeLB and deploy with your json if necessary
 
 #
-## USAGE:    get-dcos-public-agent-ip.sh \<num-pub-agents\> \<--mlb: Marathon-LB check or add\> \<--elb: Edge-LB check or add\> \<elb-local.cfg.json location\>
+## USAGE:    get-dcos-public-agent-ip.sh \<num-pub-agents\> \<--mlb: Marathon-LB check or add\> \<--elb: EdgeLB check or add\> \<elb-local.cfg.json location\>
 - get-dcos-public-agent-ip.sh
 - get-dcos-public-agent-ip.sh 3
 - get-dcos-public-agent-ip.sh --mlb
@@ -78,6 +78,30 @@ Public agent node found:  public IP is: 54.190.20.151 | http://54.190.20.151:909
 LB Location: http://54.190.20.151:9090/haproxy?stats
 
 Public agent node found:  public IP is: 35.160.110.93 | http://35.160.110.93:9090/haproxy?stats
+```
+
+Executed Command and Out w/ELB (no LB installed)
+
+```
+JD # bash get-dcos-public-agent-ip_v2.sh 5 --elb /Users/jamesdyckowski/Documents/Scripts/EdgeLB/edgelb-af.cfg.json
+
+ Using 5 public agent node(s) with Edge-LB:/Users/jamesdyckowski/Documents/Scripts/EdgeLB/edgelb-af.cfg.json
+
+ Starting public-ip.json marathon app
+
+ Edge-LB Not Found: Deploying
+
+
+ Public agent node found:  public IP is: 34.217.72.215
+
+ Public agent node found:  public IP is: 34.219.67.216
+
+ Public agent node found:  public IP is: 52.42.92.86
+ <b>LB Location: http://52.42.92.86:6090/haproxy?stats</b>
+
+ Public agent node found:  public IP is: 54.218.238.92
+
+ Public agent node found:  public IP is: 34.218.241.180
 ```
 
 ## Steps
