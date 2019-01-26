@@ -44,7 +44,7 @@ Created deployment 075c6e86-ffb6-4f7d-9b95-465efd9e2fc2
 
 
 Public agent node found:  public IP is: 54.190.20.151 | http://54.190.20.151:9090/haproxy?stats
-Marathon-LB Location: http://54.190.20.151:9090/haproxy?stats
+LB Location: http://54.190.20.151:9090/haproxy?stats
 
 Public agent node found:  public IP is: 35.160.110.93 | http://35.160.110.93:9090/haproxy?stats
 ```
@@ -64,28 +64,29 @@ Marathon-LB Not Found: Deploying
 
 
 Public agent node found:  public IP is: 54.190.20.151 | http://54.190.20.151:9090/haproxy?stats
-Marathon-LB Location: http://54.190.20.151:9090/haproxy?stats
+LB Location: http://54.190.20.151:9090/haproxy?stats
 
 Public agent node found:  public IP is: 35.160.110.93 | http://35.160.110.93:9090/haproxy?stats
 ```
 
 ## Steps
+Setup dcos command line
 
-`
+```
 JD # dcos cluster setup https://jdyckowsk-elasticl-1mdecebj9wsc5-1708719683.us-west-2.elb.amazonaws.com
 Cluster Certificate Authority:
 
-  Issuer: CN=DC/OS Root CA 6ee7b6ce-3f97-4614-911a-e6244669de9f,O=Mesosphere\, Inc.,L=San Francisco,ST=CA,C=US
+Issuer: CN=DC/OS Root CA 6ee7b6ce-3f97-4614-911a-e6244669de9f,O=Mesosphere\, Inc.,L=San Francisco,ST=CA,C=US
 
-  Validity:
-    From:  2019-01-25 15:13:52 +0000 UTC
-    Until: 2029-01-22 15:13:52 +0000 UTC
+Validity:
+From:  2019-01-25 15:13:52 +0000 UTC
+Until: 2029-01-22 15:13:52 +0000 UTC
 
-  SHA256 fingerprint: A8:E8:20:55:55:F0:56:60:A5:7D:0B:70:DD:20:1F:11:98:16:2B:9D:DB:49:44:02:F3:32:1E:40:42:36:79:59
+SHA256 fingerprint: Z8:Z8:Z0:Z5:Z5:Z0:Z6:Z0:Z5:ZD:ZB:Z0:ZD:Z0:ZF:Z1:Z8:Z6:2B:ZD:ZB:Z9:Z4:Z2:Z3:Z2:ZE:Z0:Z2:Z6:Z9:Z9
 
 Do you trust it? [y/n] y
 Username: bootstrapuser
-Password:
-`
+Password: *****
+```
 
 ## EOF
