@@ -4,6 +4,8 @@
 DESCRIPTION: 
 To start, this works the exact same as the original script.  Get the Amazon Public IP Address for the public DCOS agent nodes.  With the MLB/ELB flag it will ensure that you have the selected LB and let you know which agent has it deployed
 
+Latest Update: Got rid of the public node input argument.
+Prior Updates: Added Marathon-LB, Edge-LB (with any HAPROXY port)
 #
 Arguments:
 
@@ -79,7 +81,7 @@ JD # bash get-dcos-public-agent-ip_v3.sh --mlb
 Executed Command and Out w/ELB (no LB installed)
 
 ```
-JD # bash get-dcos-public-agent-ip_v2.sh --elb /Users/jamesdyckowski/Documents/Scripts/EdgeLB/edgelb-af.cfg.json
+JD # bash get-dcos-public-agent-ip_v2.sh --elb /Users/username/Documents/Scripts/edgelb.cfg.json
 
  Starting public-ip.json marathon app
 
