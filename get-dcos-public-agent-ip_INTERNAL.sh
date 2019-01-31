@@ -1,6 +1,8 @@
 #!/bin/bash
 #
-# SCRIPT:   get-dcos-public-agent-ip_v3.sh
+# SCRIPT:   get-dcos-public-agent-ip_v3_INTERNAL.sh
+#
+# INTERNAL VERSION - NO need for EdgeLB repo URL
 #
 # DESCR:    Get the Public IP Address for all of the public DCOS agent nodes.
 #

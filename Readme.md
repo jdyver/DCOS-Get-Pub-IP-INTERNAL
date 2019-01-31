@@ -1,6 +1,10 @@
 #
 # SCRIPT:   get-dcos-public-agent-ip_v3.sh
 #
+
+### INTERNAL ONLY: Active Edge-LB download links are within this script
+ Public version requires EdgeLB download URL
+
 DESCRIPTION: 
 To start, this works the exact same as the original script.  Get the Amazon Public IP Address for the public DCOS agent nodes.  With the MLB/ELB flag it will ensure that you have the selected LB and let you know which agent has it deployed
 
