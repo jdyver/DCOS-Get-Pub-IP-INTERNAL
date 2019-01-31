@@ -1,5 +1,5 @@
 #
-# SCRIPT:   get-dcos-public-agent-ip_v3.sh
+# SCRIPT:   get-dcos-public-agent-ip_v3_INTERNAL.sh
 #
 
 ### INTERNAL ONLY: Active Edge-LB download links are within this script
